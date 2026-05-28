@@ -1,32 +1,49 @@
+import { useContext } from 'react';
+import { CartContext } from '../../contexts/CartContext';
+import { Link } from 'react-router';
+
 export function Cart() {
+    const {cart, addCartItem, removeItemCart , total} = useContext(CartContext);
     return (
         <div className="w-full max-w-7xl mx-auto">
             <h1 className="font-medium text-2xl text-center my-4">Meu carrinho</h1>
+            {cart.length == 0 && (
+                <div className='flex flex-col items-center justify-center'>
+                    <p className="font-medium">Ops, o seu carrinho está vazio!</p>
 
-            <section className="flex items-center justify-between border-b-2 border-gray-300">
-                <img 
-                    src="https://m.media-amazon.com/images/I/51lXl6nTXEL.jpg"
-                    alt="Logo produto"
-                    className="w-28"
-                />
-
-                <strong>Preço: R$ 1.000</strong>
-
-                <div className="flex items-center justify-center gap-3">
-                    <button className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center">
-                        -
-                    </button>
-                    2
-                    <button className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center">
-                        +
-                    </button>
+                    <Link className="bg-slate-600 my-3 p-1 px-3 text-white font-medium rounded" to="/">
+                        Acesse os produtos
+                    </Link>
                 </div>
-                <strong className="float-right">
-                    SubTotal: R$1000,00
-                </strong>
-            </section>
+            )}
+            {cart.map((c)=>(
+                <section className="flex items-center justify-between border-b-2 border-gray-300">
+                    <img 
+                        src={c.cover}
+                        alt={c.description}
+                        className="w-28"
+                    />
 
-            <p className="font-bold">Total: R$1000,00</p>
+                    <strong>Preço: {c.price.toLocaleString("pt-BR",{ style: 'currency', currency: 'BRL'})}</strong>
+
+                    <div className="flex items-center justify-center gap-3">
+                        <button onClick={() => removeItemCart(c)} className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center">
+                            -
+                        </button>
+                        {c.amount}
+                        <button onClick={() => addCartItem(c)} className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center">
+                            +
+                        </button>
+                    </div>
+                    <strong className="float-right">
+                        SubTotal: {c.total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL'})}
+                    </strong>
+                </section>
+            ))}
+            {cart.length > 0 && (
+                <p className="font-bold">Total: {total}</p>
+            )}
+            
         </div>
     )
 }
