@@ -1,73 +1,107 @@
-# React + TypeScript + Vite
+# Dev Shop — Carrinho de Compras
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projeto desenvolvido durante o curso **Fullstack Pro** do [Sujeito Programador](https://sujeitoprogramador.com), como parte das aulas práticas de React com TypeScript.
 
-Currently, two official plugins are available:
+## Sobre o projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Dev Shop** é uma aplicação de e-commerce que simula um carrinho de compras. O usuário pode navegar pelo catálogo de produtos, adicionar itens ao carrinho, ajustar quantidades e acompanhar o valor total da compra em tempo real.
 
-## React Compiler
+## Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Listagem de produtos consumida via API (JSON Server)
+- Adição de produtos ao carrinho com incremento automático de quantidade
+- Remoção de itens com decremento de quantidade (remoção automática ao chegar em zero)
+- Exibição de subtotal por item e total geral do carrinho
+- Badge no ícone do carrinho indicando a quantidade de itens
+- Carrinho vazio com link de retorno ao catálogo
+- Formatação de preços em Real Brasileiro (R$)
+- Navegação entre páginas com React Router
 
-## Expanding the ESLint configuration
+## Tecnologias utilizadas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Tecnologia | Versão | Finalidade |
+|---|---|---|
+| React | 19 | Biblioteca de UI |
+| TypeScript | 6 | Tipagem estática |
+| Vite | 8 | Bundler e servidor de desenvolvimento |
+| React Router | 7 | Roteamento client-side |
+| Tailwind CSS | 4 | Estilização utilitária |
+| Axios | 1.x | Requisições HTTP |
+| JSON Server | 0.17 | Mock de API REST |
+| React Icons | 5 | Ícones |
+| Context API | — | Gerenciamento de estado global do carrinho |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Estrutura do projeto
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── contexts/
+│   └── CartContext.tsx     # Estado global do carrinho (Context API)
+├── services/
+│   └── api.ts             # Configuração do Axios
+├── components/
+│   ├── header/            # Cabeçalho com ícone e badge do carrinho
+│   └── layout/            # Wrapper de layout com header e outlet
+└── page/
+    ├── home/              # Página de listagem de produtos
+    └── cart/              # Página do carrinho de compras
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Rotas
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Rota | Página |
+|---|---|
+| `/` | Catálogo de produtos |
+| `/cart` | Carrinho de compras |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Produtos disponíveis (mock)
+
+- AirPods Apple — R$ 120,00
+- Notebook Gamer Lenovo i5 — R$ 379,90
+- Teclado Mecânico HyperX — R$ 199,99
+- Monitor Husky 34" — R$ 2.099,99
+- Soundbar LG 4.1 — R$ 1.099,99
+- Samsung Galaxy Watch 5 — R$ 1.139,00
+
+## Como executar
+
+### Pré-requisitos
+
+- Node.js 18+
+- npm
+
+### Instalação
+
+```bash
+npm install
 ```
+
+### Executar em desenvolvimento
+
+Em dois terminais separados:
+
+```bash
+# Terminal 1 — API mock
+npx json-server --watch db.json
+
+# Terminal 2 — aplicação React
+npm run dev
+```
+
+Acesse [http://localhost:5173](http://localhost:5173) no navegador.
+
+### Build para produção
+
+```bash
+npm run build
+```
+
+### Preview do build
+
+```bash
+npm run preview
+```
+
+---
+
+> Projeto desenvolvido como aluno do curso Fullstack Pro — Sujeito Programador.
